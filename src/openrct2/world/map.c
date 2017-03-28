@@ -874,7 +874,7 @@ void game_command_remove_scenery(sint32* eax, sint32* ebx, sint32* ecx, sint32* 
 	money32 cost;
 
 	rct_scenery_entry *entry = get_small_scenery_entry(scenery_type);
-	if (entry == (rct_scenery_entry *)-1)
+	if (!entry || entry == (rct_scenery_entry *)-1)
 	{
 		log_warning("Invalid game command for scenery removal, scenery_type = %u", scenery_type);
 		*ebx = MONEY32_UNDEFINED;
