@@ -864,9 +864,9 @@ void ride_get_status(sint32 rideIndex, rct_string_id *formatSecondary, sint32 *a
 	}
 }
 
-sint32 ride_get_total_length(rct_ride *ride)
+uint32 ride_get_total_length(rct_ride *ride)
 {
-	sint32 i, totalLength = 0;
+	uint32 i, totalLength = 0;
 	for (i = 0; i < ride->num_stations; i++)
 		totalLength += ride->length[i];
 	return totalLength;
