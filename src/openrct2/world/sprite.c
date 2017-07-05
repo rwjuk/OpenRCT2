@@ -852,6 +852,7 @@ static bool sprite_is_in_cycle(uint16 sprite_idx)
         increment_slow = !increment_slow;
         if (fast == slow)
         {
+            log_error("Sprite cycle! Sprite idx %i | next %i", fast->unknown.sprite_index, fast->unknown.next);
             cycled = true;
             break;
         }
@@ -887,6 +888,7 @@ static bool sprite_is_in_cycle_quadrant(uint16 sprite_idx)
         increment_slow = !increment_slow;
         if (fast == slow)
         {
+            log_error("Sprite cycle! Sprite idx %i | next in quadrant %i", fast->unknown.sprite_index, fast->unknown.next_in_quadrant);
             cycled = true;
             break;
         }
