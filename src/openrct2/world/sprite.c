@@ -826,6 +826,10 @@ bool sprite_get_flashing(rct_sprite *sprite)
 
 static bool sprite_is_in_cycle(uint16 sprite_idx)
 {
+    if (sprite_idx == SPRITE_INDEX_NULL)
+    {
+        return false;
+    }
     const rct_sprite * fast = get_sprite(sprite_idx);
     const rct_sprite * slow = fast;
     bool increment_slow = false;
@@ -855,7 +859,57 @@ static bool sprite_is_in_cycle(uint16 sprite_idx)
     return cycled;
 }
 
-bool is_sprite_list_cycled(enum SPRITE_LIST sl)
+static bool sprite_is_in_cycle_quadrant(uint16 sprite_idx)
+{
+    if (sprite_idx == SPRITE_INDEX_NULL)
+    {
+        return false;
+    }
+    const rct_sprite * fast = get_sprite(sprite_idx);
+    const rct_sprite * slow = fast;
+    bool increment_slow = false;
+    bool cycled = false;
+    while (fast->unknown.sprite_index != SPRITE_INDEX_NULL)
+    {
+        // increment fast every time, unless reached the end
+        if (fast->unknown.next_in_quadrant == SPRITE_INDEX_NULL)
+        {
+            break;
+        }
+        else {
+            fast = get_sprite(fast->unknown.next_in_quadrant);
+        }
+        // increment slow only every second iteration
+        if (increment_slow)
+        {
+            slow = get_sprite(slow->unknown.next_in_quadrant);
+        }
+        increment_slow = !increment_slow;
+        if (fast == slow)
+        {
+            cycled = true;
+            break;
+        }
+    }
+    return cycled;
+}
+
+static bool is_sprite_list_cycled(enum SPRITE_LIST sl)
 {
     return sprite_is_in_cycle(gSpriteListHead[sl]);
+}
+
+bool are_any_sprites_cycled()
+{
+    for (sint32 i = 0; i < 6; i++) {
+        if (is_sprite_list_cycled(gSpriteListHead[i])) {
+            return true;
+        }
+    }
+    for (size_t i = 0; i < 0x10000; i++) {
+        if (sprite_is_in_cycle_quadrant(gSpriteSpatialIndex[i])) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -478,7 +478,7 @@ const char *sprite_checksum();
 
 void sprite_set_flashing(rct_sprite *sprite, bool flashing);
 bool sprite_get_flashing(rct_sprite *sprite);
-bool is_sprite_list_cycled(enum SPRITE_LIST sl);
+bool are_any_sprites_cycled();
 
 #endif
 
