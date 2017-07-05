@@ -823,3 +823,39 @@ bool sprite_get_flashing(rct_sprite *sprite)
     assert(sprite->unknown.sprite_index < MAX_SPRITES);
     return _spriteFlashingList[sprite->unknown.sprite_index];
 }
+
+static bool sprite_is_in_cycle(uint16 sprite_idx)
+{
+    const rct_sprite * fast = get_sprite(sprite_idx);
+    const rct_sprite * slow = fast;
+    bool increment_slow = false;
+    bool cycled = false;
+    while (fast->unknown.sprite_index != SPRITE_INDEX_NULL)
+    {
+        // increment fast every time, unless reached the end
+        if (fast->unknown.next == SPRITE_INDEX_NULL)
+        {
+            break;
+        }
+        else {
+            fast = get_sprite(fast->unknown.next);
+        }
+        // increment slow only every second iteration
+        if (increment_slow)
+        {
+            slow = get_sprite(slow->unknown.next);
+        }
+        increment_slow = !increment_slow;
+        if (fast == slow)
+        {
+            cycled = true;
+            break;
+        }
+    }
+    return cycled;
+}
+
+bool is_sprite_list_cycled(enum SPRITE_LIST sl)
+{
+    return sprite_is_in_cycle(gSpriteListHead[sl]);
+}
