@@ -28,6 +28,13 @@
 uint8 const HINTING_THRESHOLD_LOW    = 40;
 uint8 const HINTING_THRESHOLD_MEDIUM = 60;
 
+TTFFontSetDescriptor TTFFontHiraginoMaru = { {
+    { "ヒラギノ丸ゴ ProN W4.ttc", "Hiragino Maru Gothic ProN W4",  8, 1, -1, 10, HINTING_THRESHOLD_MEDIUM, nullptr },
+    { "ヒラギノ丸ゴ ProN W4.ttc", "Hiragino Maru Gothic ProN W4", 10, 1,  0, 14, HINTING_THRESHOLD_MEDIUM, nullptr },
+    { "ヒラギノ丸ゴ ProN W4.ttc", "Hiragino Maru Gothic ProN W4", 11, 1,  0, 14, HINTING_THRESHOLD_MEDIUM, nullptr },
+    { "ヒラギノ丸ゴ ProN W4.ttc", "Hiragino Maru Gothic ProN W4", 12, 1,  0, 15, HINTING_THRESHOLD_MEDIUM, nullptr },
+} };
+
 TTFFontSetDescriptor TTFFontMSGothic = { {
     { "msgothic.ttc", "MS PGothic",  9, 1, -1, 10, HINTING_THRESHOLD_MEDIUM, nullptr },
     { "msgothic.ttc", "MS PGothic", 12, 1,  0, 14, HINTING_THRESHOLD_MEDIUM, nullptr },
