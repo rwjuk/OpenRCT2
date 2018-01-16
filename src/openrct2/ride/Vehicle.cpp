@@ -1605,7 +1605,7 @@ static void vehicle_update_measurements(rct_vehicle * vehicle)
             return;
 
         uint16 track_elem_type = vehicle->track_type / 4;
-        if (track_elem_type == TRACK_ELEM_POWERED_LIFT || (vehicle->update_flags & VEHICLE_UPDATE_FLAG_0))
+        if (track_elem_type == TRACK_ELEM_POWERED_LIFT || (vehicle->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL))
         {
             if (!(ride->testing_flags & RIDE_TESTING_POWERED_LIFT))
             {
@@ -6995,7 +6995,7 @@ static void vehicle_update_swinging_car(rct_vehicle * vehicle)
             break;
         }
 
-        if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_0)
+        if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL)
         {
             dx = 0;
             cx = 0;
@@ -8112,10 +8112,10 @@ loc_6DB41D:
 
     // loc_6DB500
     // Update VEHICLE_UPDATE_FLAG_0
-    vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_0;
+    vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
     if (track_element_is_lift_hill(tileElement))
     {
-        vehicle->update_flags |= VEHICLE_UPDATE_FLAG_0;
+        vehicle->update_flags |= VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
     }
 
     trackType = track_element_get_type(tileElement);
@@ -8515,14 +8515,14 @@ static bool vehicle_update_track_motion_backwards_get_new_track(rct_vehicle * ve
                     _vehicleMotionTrackFlags |= VEHICLE_UPDATE_MOTION_TRACK_FLAG_9;
                 }
             }
-            vehicle->update_flags |= VEHICLE_UPDATE_FLAG_0;
+            vehicle->update_flags |= VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
         }
     }
     else
     {
-        if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_0)
+        if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL)
         {
-            vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_0;
+            vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
             if (vehicle->next_vehicle_on_train == SPRITE_INDEX_NULL)
             {
                 if (_vehicleVelocityF64E08 < 0)
@@ -8906,7 +8906,7 @@ loc_6DC476:
         vehicle->var_CD = regs.al;
     }
 
-    vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_0;
+    vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
     vehicle->track_type = (track_element_get_type(tileElement) << 2) | (direction & 3);
     vehicle->var_CF     = tile_element_get_brake_booster_speed(tileElement);
     regs.ax             = 0;
@@ -9146,9 +9146,9 @@ loc_6DCA9A:
     vehicle->track_y = y;
     vehicle->track_z = z;
 
-    if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_0)
+    if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL)
     {
-        vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_0;
+        vehicle->update_flags &= ~VEHICLE_UPDATE_FLAG_ON_LIFT HILL;
         if (vehicle->next_vehicle_on_train == SPRITE_INDEX_NULL)
         {
             if (_vehicleVelocityF64E08 < 0)
@@ -9323,7 +9323,7 @@ loc_6DCE68:
     }
 
 loc_6DCEB2:
-    if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_0)
+    if (vehicle->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL)
     {
         _vehicleMotionTrackFlags |= VEHICLE_UPDATE_MOTION_TRACK_FLAG_VEHICLE_ON_LIFT_HILL;
     }
@@ -9583,7 +9583,7 @@ sint32 vehicle_update_track_motion(rct_vehicle * vehicle, sint32 * outStation)
         sub_6DBF3E(car);
 
         // loc_6DC0F7
-        if (car->update_flags & VEHICLE_UPDATE_FLAG_0)
+        if (car->update_flags & VEHICLE_UPDATE_FLAG_ON_LIFT HILL)
         {
             _vehicleMotionTrackFlags |= VEHICLE_UPDATE_MOTION_TRACK_FLAG_VEHICLE_ON_LIFT_HILL;
         }

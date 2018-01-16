@@ -288,7 +288,7 @@ enum {
 };
 
 enum{
-    VEHICLE_UPDATE_FLAG_0 = (1 << 0),
+    VEHICLE_UPDATE_FLAG_ON_LIFT_HILL = (1 << 0),
     VEHICLE_UPDATE_FLAG_1 = (1 << 1),
     VEHICLE_UPDATE_FLAG_WAIT_ON_ADJACENT = (1 << 2),
     VEHICLE_UPDATE_FLAG_3 = (1 << 3),
