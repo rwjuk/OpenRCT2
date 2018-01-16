@@ -288,6 +288,7 @@ typedef struct rct_window {
         sint16 picked_peep_old_x;   // 0x48C staff/guest window: peep x gets set to 0x8000 on pickup, this is the old value
         sint16 vehicleIndex;        // 0x48C Ride window: selected car when setting vehicle colours
         sint16 numberOfStaff;       // 0x48C Used in park window.
+        sint16 scenery_type;        // 0x48C Sign window: scenery type.
         sint16 var_48C;
     };
     uint16 frame_no;                // 0x48E updated every tic for motion in windows sprites
@@ -304,21 +305,24 @@ typedef struct rct_window {
         const scenario_index_entry* highlighted_scenario;
         struct {
             uint16 var_494;
-            uint16 var_496;
+            uint16 peep_window_animation_frame; // 0x496 animation frame for the first tab of guest/staff window
         };
     };
     uint8 var_498[0x14];
-    sint16 selected_tab;            // 0x4AC
-    sint16 var_4AE;
-    uint16 viewport_target_sprite;  // 0x4B0 viewport target sprite
-    sint16 saved_view_x;            // 0x4B2
-    sint16 saved_view_y;            // 0x4B4
-    rct_windowclass classification; // 0x4B6
+    sint16 selected_tab;                 // 0x4AC
+    union {
+        sint16 player_current_rotation;   // 0x4AE MP player window
+        sint16 var_4AE;
+    };
+    uint16 viewport_target_sprite;       // 0x4B0 viewport target sprite
+    sint16 saved_view_x;                 // 0x4B2
+    sint16 saved_view_y;                 // 0x4B4
+    rct_windowclass classification;      // 0x4B6
     uint8 pad_4B7;
     sint8 var_4B8;
     sint8 var_4B9;
-    uint8 colours[6];           // 0x4BA
-    uint8 visibility;           // VISIBILITY_CACHE
+    uint8 colours[6];                    // 0x4BA
+    uint8 visibility;                    // VISIBILITY_CACHE
     uint16 viewport_smart_follow_sprite; // Smart following of sprites. Handles setting viewport target sprite etc
 } rct_window;
 

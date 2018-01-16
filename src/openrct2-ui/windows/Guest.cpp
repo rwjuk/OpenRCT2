@@ -817,38 +817,34 @@ static void window_guest_overview_tab_paint(rct_window* w, rct_drawpixelinfo* dp
     if (peep->type == PEEP_TYPE_STAFF && peep->staff_type == STAFF_TYPE_ENTERTAINER)
         y++;
 
-    sint32 ebx = g_peep_animation_entries[peep->sprite_type].sprite_animation->base_image + 1;
-
-    sint32 eax = 0;
+    sint32 base_sprite_id = g_peep_animation_entries[peep->sprite_type].sprite_animation->base_image + 1;
 
     if (w->page == WINDOW_GUEST_OVERVIEW){
-        eax = w->var_496;
-        eax &= 0xFFFC;
+        base_sprite_id += (w->peep_window_animation_frame & PEEP_SPRITE_ANIMATION_MASK);
     }
-    ebx += eax;
 
-    sint32 sprite_id = ebx | SPRITE_ID_PALETTE_COLOUR_2(peep->tshirt_colour, peep->trousers_colour);
+    sint32 sprite_id = base_sprite_id | SPRITE_ID_PALETTE_COLOUR_2(peep->tshirt_colour, peep->trousers_colour);
     gfx_draw_sprite(&clip_dpi, sprite_id, x, y, 0);
 
     // If holding a balloon
-    if (ebx >= 0x2A1D && ebx < 0x2A3D){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->balloon_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
+    if (base_sprite_id >= 0x2A1D && base_sprite_id < 0x2A3D){
+        base_sprite_id += 32;
+        base_sprite_id |= SPRITE_ID_PALETTE_COLOUR_1(peep->balloon_colour);
+        gfx_draw_sprite(&clip_dpi, base_sprite_id, x, y, 0);
     }
 
     // If holding umbrella
-    if (ebx >= 0x2BBD && ebx < 0x2BDD){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->umbrella_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
+    if (base_sprite_id >= 0x2BBD && base_sprite_id < 0x2BDD){
+        base_sprite_id += 32;
+        base_sprite_id |= SPRITE_ID_PALETTE_COLOUR_1(peep->umbrella_colour);
+        gfx_draw_sprite(&clip_dpi, base_sprite_id, x, y, 0);
     }
 
     // If wearing hat
-    if (ebx >= 0x29DD && ebx < 0x29FD){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->hat_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
+    if (base_sprite_id >= 0x29DD && base_sprite_id < 0x29FD){
+        base_sprite_id += 32;
+        base_sprite_id |= SPRITE_ID_PALETTE_COLOUR_1(peep->hat_colour);
+        gfx_draw_sprite(&clip_dpi, base_sprite_id, x, y, 0);
     }
 }
 
@@ -1093,11 +1089,10 @@ void window_guest_overview_invalidate(rct_window *w)
  *
  *  rct2: 0x696F45
  */
-void window_guest_overview_update(rct_window* w){
-    sint32 var_496 = w->var_496;
-    var_496++;
-    var_496 %= 24;
-    w->var_496 = var_496;
+void window_guest_overview_update(rct_window* w)
+{
+    w->peep_window_animation_frame++;
+    w->peep_window_animation_frame %= PEEP_SPRITE_MAX_ANIMATION_FRAMES;
 
     widget_invalidate(w, WIDX_TAB_1);
     widget_invalidate(w, WIDX_TAB_2);

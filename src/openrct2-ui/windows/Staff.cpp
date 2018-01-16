@@ -581,12 +581,8 @@ void window_staff_overview_dropdown(rct_window *w, rct_widgetindex widgetIndex, 
  */
 void window_staff_overview_update(rct_window* w)
 {
-    sint32 var_496 = w->var_496;
-    var_496++;
-    if (var_496 >= 24) {
-        var_496 = 0;
-    }
-    w->var_496 = var_496;
+    w->peep_window_animation_frame++;
+    w->peep_window_animation_frame %= PEEP_SPRITE_MAX_ANIMATION_FRAMES;
     widget_invalidate(w, WIDX_TAB_1);
 }
 
@@ -983,39 +979,14 @@ void window_staff_overview_tab_paint(rct_window* w, rct_drawpixelinfo* dpi)
     if (peep->type == PEEP_TYPE_STAFF && peep->staff_type == STAFF_TYPE_ENTERTAINER)
         y++;
 
-    sint32 ebx = g_peep_animation_entries[peep->sprite_type].sprite_animation->base_image + 1;
-
-    sint32 eax = 0;
+    sint32 base_sprite_id = g_peep_animation_entries[peep->sprite_type].sprite_animation->base_image + 1;
 
     if (w->page == WINDOW_STAFF_OVERVIEW){
-        eax = w->highlighted_item >> 16;
-        eax &= 0xFFFC;
+        base_sprite_id += (w->peep_window_animation_frame & PEEP_SPRITE_ANIMATION_MASK);
     }
-    ebx += eax;
 
-    sint32 sprite_id = ebx | SPRITE_ID_PALETTE_COLOUR_2(peep->tshirt_colour , peep->trousers_colour);
+    sint32 sprite_id = base_sprite_id | SPRITE_ID_PALETTE_COLOUR_2(peep->tshirt_colour, peep->trousers_colour);
     gfx_draw_sprite(&clip_dpi, sprite_id, x, y, 0);
-
-    // If holding a balloon
-    if (ebx >= 0x2A1D && ebx < 0x2A3D){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->balloon_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
-    }
-
-    // If holding umbrella
-    if (ebx >= 0x2BBD && ebx < 0x2BDD){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->umbrella_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
-    }
-
-    // If wearing hat
-    if (ebx >= 0x29DD && ebx < 0x29FD){
-        ebx += 32;
-        ebx |= SPRITE_ID_PALETTE_COLOUR_1(peep->hat_colour);
-        gfx_draw_sprite(&clip_dpi, ebx, x, y, 0);
-    }
 }
 
 /**

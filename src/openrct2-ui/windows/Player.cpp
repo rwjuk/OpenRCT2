@@ -332,8 +332,8 @@ void window_player_overview_update(rct_window* w)
     bool scroll = true;
 
     // Use this spare window field for rotation check
-    if (w->var_4AE != get_current_rotation()) {
-        w->var_4AE = get_current_rotation();
+    if (w->player_current_rotation != get_current_rotation()) {
+        w->player_current_rotation = get_current_rotation();
         scroll = false;
     }
     window_player_update_viewport(w, scroll);

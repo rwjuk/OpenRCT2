@@ -430,8 +430,6 @@ rct_window *window_create(sint32 x, sint32 y, sint32 width, sint32 height, rct_w
 
     // Setup window
     w->classification = cls;
-    w->var_4B8 = -1;
-    w->var_4B9 = -1;
     w->flags = flags;
 
     // Play sounds and flash the window
@@ -462,7 +460,7 @@ rct_window *window_create(sint32 x, sint32 y, sint32 width, sint32 height, rct_w
     w->list_information_type = 0;
     w->var_492 = 0;
     w->selected_tab = 0;
-    w->var_4AE = 0;
+    w->player_current_rotation = 0;
     w->viewport_smart_follow_sprite = SPRITE_INDEX_NULL;
     RCT2_NEW_WINDOW++;
 

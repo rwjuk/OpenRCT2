@@ -185,7 +185,7 @@ rct_window * window_sign_open(rct_windownumber number)
 
     w->list_information_type = scenery_large_get_primary_colour(tile_element);
     w->var_492 = scenery_large_get_secondary_colour(tile_element);
-    w->var_48C = scenery_large_get_type(tile_element);
+    w->scenery_type = scenery_large_get_type(tile_element);
 
     view_x += 16;
     view_y += 16;
@@ -331,7 +331,7 @@ static void window_sign_invalidate(rct_window *w)
     rct_widget* main_colour_btn = &window_sign_widgets[WIDX_MAIN_COLOUR];
     rct_widget* text_colour_btn = &window_sign_widgets[WIDX_TEXT_COLOUR];
 
-    rct_scenery_entry* scenery_entry = get_large_scenery_entry(w->var_48C);
+    rct_scenery_entry* scenery_entry = get_large_scenery_entry(w->scenery_type);
 
     main_colour_btn->type = WWT_EMPTY;
     text_colour_btn->type = WWT_EMPTY;
@@ -450,7 +450,7 @@ rct_window * window_sign_small_open(rct_windownumber number){
 
     w->list_information_type = wall_get_primary_colour(tile_element);
     w->var_492 = wall_get_secondary_colour(tile_element);
-    w->var_48C = tile_element->properties.wall.type;
+    w->scenery_type = tile_element->properties.wall.type;
 
     view_x += 16;
     view_y += 16;
@@ -565,7 +565,7 @@ static void window_sign_small_invalidate(rct_window *w)
     rct_widget* main_colour_btn = &window_sign_widgets[WIDX_MAIN_COLOUR];
     rct_widget* text_colour_btn = &window_sign_widgets[WIDX_TEXT_COLOUR];
 
-    rct_scenery_entry* scenery_entry = get_wall_entry(w->var_48C);
+    rct_scenery_entry* scenery_entry = get_wall_entry(w->scenery_type);
 
     main_colour_btn->type = WWT_EMPTY;
     text_colour_btn->type = WWT_EMPTY;
